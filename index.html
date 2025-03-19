@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scientific Number Accepter</title>
+  <!-- Link Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(45deg, #001f3f, #FF4136, #AAAAAA);
+      background-size: 600% 600%;
+      animation: gradientAnimation 20s ease infinite;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Navbar */
+    .navbar {
+      width: 100%;
+      background: rgba(0, 31, 63, 0.9);
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      border-bottom: 2px solid #FF4136;
+      z-index: 100;
+    }
+    .navbar a {
+      color: #FF4136;
+      margin: 0 20px;
+      text-decoration: none;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 24px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .navbar a:hover {
+      color: #ffffff;
+      transform: scale(1.1);
+    }
+    /* Konten Utama */
+    .content {
+      flex: 1;
+      width: 100%;
+      padding: 80px 20px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .section {
+      display: none;
+      max-width: 600px;
+      width: 90%;
+      margin: auto;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .section.active {
+      display: block;
+    }
+    h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 48px;
+      margin-bottom: 20px;
+      animation: textGlow 3s ease-in-out infinite;
+    }
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 5px #FF4136, 0 0 10px #FF4136; transform: scale(0.95); }
+      50% { text-shadow: 0 0 20px #FF4136, 0 0 30px #FF4136; transform: scale(1); }
+      100% { text-shadow: 0 0 5px #FF4136, 0 0 10px #FF4136; transform: scale(0.95); }
+    }
+    p {
+      font-size: 18px;
+      margin: 15px 0;
+    }
+    /* Input & Button */
+    input[type="text"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      font-size: 18px;
+      border: 2px solid #FF4136;
+      border-radius: 5px;
+      background: rgba(255, 65, 54, 0.1);
+      color: #ffffff;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      background: #FF4136;
+      color: #ffffff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    button:hover {
+      background: #e6392d;
+      transform: scale(1.1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a onclick="showSection('file')">File</a>
+    <a onclick="showSection('edit')">Edit</a>
+    <a onclick="showSection('run')">Run</a>
+    <a onclick="showSection('about')">About Us</a>
+  </div>
+  
+  <!-- Konten Utama -->
+  <div class="content">
+    <div id="file" class="section">
+      <h2>File</h2>
+      <p>Konten fitur file dapat ditambahkan di sini.</p>
+    </div>
+    <div id="edit" class="section">
+      <h2>Edit</h2>
+      <p>Konten fitur edit dapat ditambahkan di sini.</p>
+    </div>
+    <div id="run" class="section active">
+      <h2>Run</h2>
+      <p>Masukkan bilangan (format desimal atau notasi ilmiah):</p>
+      <input type="text" id="numberInput" placeholder="Masukkan bilangan">
+      <br>
+      <button onclick="validateNumber()">Run</button>
+      <p id="result"></p>
+    </div>
+    <div id="about" class="section">
+      <h2>About Us</h2>
+      <p>Nama   : Sepri Tandira'pak</p>
+      <p>NIM    : 231011060048</p>
+      <p>Kelas  : Teori Bahasa dan Otomata</p>
+      <p>Prodi  : Sistem Informasi</p>
+    </div>
+  </div>
+  
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+    function validateNumber() {
+      var input = document.getElementById('numberInput').value.trim();
+      var resultElem = document.getElementById('result');
+      if (/^[+-]?(\d+(\.\d+)?|\.\d+)([eE][+-]?\d+)?$/.test(input)) {
+        resultElem.textContent = "Yes, it is a number";
+      } else {
+        resultElem.textContent = "No, it is not a number";
+      }
+    }
+  </script>
+</body>
+</html>
